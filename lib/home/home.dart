@@ -49,14 +49,33 @@ class HomePage extends StatelessWidget {
                 margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: Column(
                   children: [
-                    TextField(
-                      decoration: InputDecoration(labelText: 'UserName'),
-                      controller: usernameField,
+                    Container(
+                      child: TextField(
+                        decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.black, width: 1)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.black, width: 1)),
+                            hintText: 'UserName'),
+                        controller: usernameField,
+                      ),
                     ),
-                    TextField(
-                      obscureText: true,
-                      decoration: InputDecoration(labelText: 'Password'),
-                      controller: passwordField,
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      child: TextField(
+                        obscureText: true,
+                        decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.black, width: 1)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.black, width: 1)),
+                            hintText: 'Password'),
+                        controller: passwordField,
+                      ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
