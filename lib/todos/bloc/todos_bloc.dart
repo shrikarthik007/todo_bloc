@@ -12,7 +12,21 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     on<LoadTodoEvent>((event, emit) {
       // TODO: implement event handler
       final todos = _todoService.getTasks(event.userName);
-      emit(TodoLoadedState(todos));
+      emit(TodoLoadedState(todos, event.userName));
+    });
+    on<AddTodoEvent>(((event, emit) {
+      final currentState = state as TodoLoadedState;
+      _todoService.addTask(event.todoText, currentState.userName);
+      add(LoadTodoEvent(currentState.userName));
+    }));
+
+    on<ToggletodoEvent>((event, emit) async {
+      final currentState = state as TodoLoadedState;
+      await _todoService.updateTask(
+        event.todoTask,
+        currentState.userName,
+      );
+      add(LoadTodoEvent(currentState.userName));
     });
   }
 }

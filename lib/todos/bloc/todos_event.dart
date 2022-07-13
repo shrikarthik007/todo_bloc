@@ -11,3 +11,21 @@ class LoadTodoEvent extends TodoEvent {
   @override
   List<Object> get props => [userName];
 }
+
+class AddTodoEvent extends TodoEvent {
+  final String todoText;
+
+  AddTodoEvent(this.todoText);
+  @override
+  // TODO: implement props
+  List<Object?> get props => [todoText];
+}
+
+class ToggletodoEvent extends TodoEvent {
+  final String todoTask;
+
+  ToggletodoEvent(this.todoTask);
+  @override
+  // TODO: implement props
+  List<Object?> get props => [todoTask];
+}

@@ -24,18 +24,67 @@ class TodosPage extends StatelessWidget {
           builder: (context, state) {
             if (state is TodoLoadedState) {
               return ListView(
-                children: state.tasks
-                    .map((e) => ListTile(
-                          title: Text(e.task),
-                          trailing:
-                              Checkbox(value: e.completed, onChanged: (val) {}),
-                        ))
-                    .toList(),
+                children: [
+                  ...state.tasks.map((e) => ListTile(
+                        title: Text(e.task),
+                        trailing: Checkbox(
+                            value: e.completed,
+                            onChanged: (val) {
+                              BlocProvider.of<TodoBloc>(context)
+                                  .add(ToggletodoEvent(e.task));
+                            }),
+                      )),
+                  ListTile(
+                    title: Text('Create new task'),
+                    onTap: () async {
+                      final result = await showDialog<String>(
+                          context: context,
+                          builder: (context) => Dialog(
+                                child: CreateNewTaskState(),
+                              ));
+
+                      if (result != null) {
+                        BlocProvider.of<TodoBloc>(context)
+                            .add(AddTodoEvent(result));
+                      }
+                    },
+                    trailing: Icon(Icons.create),
+                  )
+                ],
               );
             }
             return Container();
           },
         ),
+      ),
+    );
+  }
+}
+
+class CreateNewTaskState extends StatefulWidget {
+  const CreateNewTaskState({Key? key}) : super(key: key);
+
+  @override
+  State<CreateNewTaskState> createState() => _CreateNewTaskStateState();
+}
+
+class _CreateNewTaskStateState extends State<CreateNewTaskState> {
+  final _inputController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          Text('What task do you want to create?'),
+          TextField(
+            controller: _inputController,
+          ),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(_inputController.text);
+              },
+              child: Text('Save'))
+        ],
       ),
     );
   }
